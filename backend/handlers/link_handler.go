@@ -2,10 +2,12 @@ package handlers
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"url-shortner/database/models"
 	"url-shortner/database/repository"
+
+	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 type LinkHandler struct {
@@ -18,7 +20,7 @@ func NewLinkHandler(repo repository.LinkRepository) *LinkHandler {
 
 type createLinkRequest struct {
 	URL  string `json:"url" binding:"required"`
-	Slug string `json:"slug" binding:"required,min=6"`
+	Slug string `json:"slug" binding:"required,min=3"`
 }
 
 func (handler *LinkHandler) CreateLink(context *gin.Context) {
@@ -39,9 +41,9 @@ func (handler *LinkHandler) CreateLink(context *gin.Context) {
 	}
 
 	err := handler.repo.CreateLink(link)
-	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{
-			"error": err.Error(),
+	if err == gorm.ErrDuplicatedKey {
+		context.JSON(http.StatusBadRequest, gin.H{
+			"error": "Slug already created",
 		})
 		return
 	}
