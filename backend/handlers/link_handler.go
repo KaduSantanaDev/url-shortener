@@ -48,6 +48,7 @@ func (handler *LinkHandler) CreateLink(context *gin.Context) {
 
 	context.JSON(http.StatusCreated, gin.H{
 		"message": "created successfully",
+		"newURL": link.ShortUrl,
 	})
 }
 
