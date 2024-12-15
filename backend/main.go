@@ -35,7 +35,7 @@ func main() {
 	})
 
 	router.POST("/links", linkHandler.CreateLink)
-	router.GET("/links/:slug", linkHandler.GetLink)
+	router.GET("/:slug", linkHandler.GetLink)
 
 	if err := router.Run(":8005"); err != nil {
 		log.Fatalf("failed to start server: %v", err)
