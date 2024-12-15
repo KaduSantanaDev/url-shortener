@@ -41,9 +41,9 @@ func (handler *LinkHandler) CreateLink(context *gin.Context) {
 	}
 
 	err := handler.repo.CreateLink(link)
-	if err == gorm.ErrDuplicatedKey {
+	if err != gorm.ErrDuplicatedKey {
 		context.JSON(http.StatusBadRequest, gin.H{
-			"error": "Slug already created",
+			"error": "Esse slug já existe!",
 		})
 		return
 	}
