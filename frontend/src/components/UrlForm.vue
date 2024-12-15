@@ -1,17 +1,25 @@
 <template>
-  <form class="url-form" @submit.prevent="submitUrl">
+  <form class="url-form" @submit.prevent="submitForm">
     <div class="form-group">
       <input
         type="url"
-        v-model="urlInput"
+        v-model="url"
         placeholder="Cole sua URL aqui..."
         required
       />
       <input 
         type="slug"
-        v-model="slugInput"
+        v-model="slug"
         placeholder="Digite um apelido para a URL..."
         required
+      >
+      
+      <label v-if="responseMessage">Link Encurtado:</label>
+      <input 
+        type="text"
+        v-if="responseMessage"
+        :value=responseMessage
+        readonly
       >
       <button type="submit">Encurtar</button>
     </div>
@@ -19,23 +27,35 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: "UrlForm",
   data() {
     return {
-      urlInput: "",
-      slugInput: ""
+      url: "",
+      slug: "",
+      responseMessage: ""
     };
   },
   methods: {
-    submitUrl() {
-      this.$emit("submit-url", {
-        url: this.urlInput,
-        slug: this.slugInput,
-      });
+    submitForm() {
+      const formData = {
+        url: this.url,
+        slug: this.slug
+      }
+      
+      axios.post('http://localhost:8005/links', formData)
+      .then((response) => {
+        this.responseMessage = response.data.newURL
+      })
+      .catch((error) => {
+        this.responseMessage = "Erro ao enviar dados"
+        alert(error.response.data.error)
+      })
 
-      this.urlInput = "";
-      this.slugInput = "";
+      this.url = "";
+      this.slug = "";
     },
   },
 };
@@ -55,14 +75,14 @@ export default {
   align-items: center;
 }
 
-input[type="url"] {
+input {
   width: 300px;
   padding: 0.8rem;
   border: 1px solid #bdc3c7;
   border-radius: 4px;
   font-size: 1rem;
 }
-input[type="slug"] {
+input {
   width: 300px;
   padding: 0.8rem;
   border: 1px solid #bdc3c7;

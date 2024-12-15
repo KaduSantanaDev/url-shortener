@@ -1,7 +1,7 @@
 <template>
   <HeaderComponent />
   
-  <UrlForm @submit-url="handleUrl" />
+  <UrlForm />
   
 </template>
 
@@ -15,11 +15,6 @@ export default {
     HeaderComponent,
     UrlForm
   },
-  methods: {
-    handleUrl(url) {
-      console.log("URL recebida no App.vue:", url);
-    },
-  }
 }
 </script>
 

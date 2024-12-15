@@ -1,7 +1,7 @@
 <template>
     <header class="header">
       <div class="container">
-        <h1 class="title">URL Shortener</h1>
+        <h1 class="title">Encurta Links</h1>
         <p class="subtitle">Encurte suas URLs de forma simples e eficiente</p>
       </div>
     </header>
