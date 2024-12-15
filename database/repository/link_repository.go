@@ -24,7 +24,7 @@ func (repository *GormLinkRepository) CreateLink(link *models.Link) error {
 
 func (repository *GormLinkRepository) FindBySlug(slug string) (*models.Link, error) {
 	var link models.Link
-	if err := repository.DB.Where(&link, "slug = ?", slug).Error; err != nil {
+	if err := repository.DB.Where("slug = ?", slug).First(&link).Error; err != nil {
 		return nil, err
 	}
 	return &link, nil
