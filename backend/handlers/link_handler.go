@@ -7,7 +7,6 @@ import (
 	"url-shortner/database/repository"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
 type LinkHandler struct {
@@ -41,7 +40,7 @@ func (handler *LinkHandler) CreateLink(context *gin.Context) {
 	}
 
 	err := handler.repo.CreateLink(link)
-	if err != gorm.ErrDuplicatedKey {
+	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{
 			"error": "Esse slug já existe!",
 		})
