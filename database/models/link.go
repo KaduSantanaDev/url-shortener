@@ -1,12 +1,14 @@
 package models
 
-import "time"
+import (
+	"time"
+)
 
 type Link struct {
-	ID        string     `gorm:"primary_key"`
-	Url       string     `gorm:"unique;not null"`
-	Slug      string     `gorm:"unique;not null;size:6"`
-	ShortUrl  string     `gorm:"unique"`
+	ID        uint   `gorm:"primary_key;auto_increment"`
+	Url       string `gorm:"not null"`
+	Slug      string `gorm:"unique;not null"`
+	ShortUrl  string
 	CreatedAt *time.Time `gorm:"not null;default:current_timestamp"`
 }
 
